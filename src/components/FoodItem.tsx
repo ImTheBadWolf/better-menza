@@ -24,18 +24,20 @@ const useStyles = makeStyles(theme => ({
 	image: {
 		width: 128,
 		height: 128,
+		padding: '5px 0px'
 	},
 	img: {
 		margin: 'auto',
 		display: 'block',
 		maxWidth: '100%',
 		maxHeight: '100%',
+		borderRadius: '2px'
 	},
 }));
 
 
 export interface IFoodItemProps {
-	imgPath: string,
+	imgPath?: string,
 	alergens: number[],
 	price: number,
 	foodName: string,
@@ -57,16 +59,16 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, porti
 				<Grid container spacing={2}>
 					<Grid item>
 						<ButtonBase className={classes.image}>
-							<img className={classes.img} alt="foodImage" src={imgPath} onClick={() => onSelect("img", id)} />
+							<img className={classes.img} alt="foodImage" src={imgPath || '/food/noPhoto.png'} onClick={() => onSelect("img", id)} />
 						</ButtonBase>
 					</Grid>
 					<Grid item xs={12} sm container>
 						<Grid item xs container direction="column" spacing={2}>
 							<Grid item xs>
-								<Typography gutterBottom variant="subtitle1">
+								<Typography gutterBottom variant="subtitle1" >
 									{foodName}
                 </Typography>
-								{portions && <Typography variant="body2" gutterBottom>
+								{portions && <Typography variant="body2" gutterBottom color='textSecondary'>
 									{`Zbyva porci: ${portions}`}
 								</Typography>}
 								{annexes && <Typography variant="body2" color="textSecondary">
@@ -75,16 +77,22 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, porti
 								<Typography variant="body2" color="textSecondary">
 									{`A ${alergens.join(",")}`}
 								</Typography>
-							</Grid>
-							<Grid item>
-								<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id",id)}>
-									Vybrat
-                </Button>
-							</Grid>
+							</Grid>	
 						</Grid>
-						<Grid item>
-							<Typography variant="subtitle1">{`${price} Kc`}</Typography>
-						</Grid>
+
+						<Grid item justify='space-between'>
+							<Grid container direction="column" justify='space-between'>
+								<Grid item>
+									<Typography variant="subtitle1">{`${price} Kč`}</Typography>
+								</Grid>
+								<Grid item>
+									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", id)}>
+										Vybrat
+									</Button>
+								</Grid>
+							</Grid>
+						</Grid>{/* TODO */}
+
 					</Grid>
 				</Grid>
 			</Paper>

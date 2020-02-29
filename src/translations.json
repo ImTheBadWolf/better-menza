@@ -1,0 +1,21 @@
+{
+  "languages": ["cs_CZ", "en-US"],
+  
+  "portionsLeft": ["Zbývá porcí", "Portions left"],
+  "selectItem": ["Vybrat", "Select"],
+  "foodTags": [
+    ["Vegetariánské jídlo", "Bezlepkové jídlo", "Výběrové jídlo"],
+    ["Vegetarion meal", "Gluten-free meal", "Chef's choice"]
+  ],
+
+
+  "leftmenuDate": ["Dátum", "Date"],
+  "leftmenuCanteen": ["Výdejna" , "Canteen"],
+  "leftmenuOrders": ["Objednávky", "Orders"],
+  "leftmenuMealExchange": ["Burza", "Meal exchange"],
+  "leftmenuHistory": ["Historie účtu", "Account history"],
+  "leftmenuAlergens": ["Seznam alergenů", "List of allergens"],
+  "leftmenuPayment": ["Vklad na účet", "Top up"],
+  "leftmenuSettings": ["Nastavení", "Settings"],
+  "leftmenuHome": ["Jídelníček", "Meals"]
+}

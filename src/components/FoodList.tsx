@@ -6,7 +6,6 @@ import { TransitionProps } from "@material-ui/core/transitions/transition";
 
 const data = [
   {
-    img: '/food/0.jfif',
     name: 'Tilapie smažená, bramborový salát s majonézou',
     alergens: [1, 3, 4, 7, 9, 10, 12],
     portions: 107,
@@ -87,11 +86,13 @@ const FoodList: React.FC = () => {
       console.log("Selected: " + id)
     }
     else{
-      setModalOpen(true);
-      setModalImg(data[id].img);
+      if (data[id]?.img){
+        setModalOpen(true);
+        setModalImg(data[id]?.img);
+      }
     }
   }
-
+  //TODO add meal ID(numbers)
   return (
     <>
       {
