@@ -38,6 +38,7 @@ const CustomMenu: React.FC<IProps> = ({open, onClose, onCreditUp, onCanteenChang
               id="date-picker-dialog"
               label="Datum"
               format="DD/MM/YYYY"
+              disablePast
               autoOk
               value={date}
               onChange={moment => setDate(moment?.format() || null)}
