@@ -34,7 +34,7 @@ function App() {
 
         <Switch>
           <Route exact path="/">
-            <FoodList/>
+            <FoodList languageID={languageID}/>
           </Route>
           <Route exact path="/allergens">
             <AllergensList languageID={languageID}/>

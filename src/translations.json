@@ -81,11 +81,61 @@
     "mealExchange":{
     },
     "accountHistory":{
-
     },
-    "allergens":{
+    "mealList":{
+      "portions": ["Zbývá porcí", "Portions available"],
+      "tags": {
+        "glutenFree": {
+          "src": "/icons/carrot.png",
+          "color": "#4caf50",
+          "title": ["Vegetariánske jídlo","Vegetarian meal"]
+        },
+        "vegetarian": {
+          "src": "/icons/glutenFree.png",
+          "color": "#ffeb3b",
+          "title": ["Bezlepkové jidlo", "Gluten free meal"]
+        },
+        "chef": {
+          "src": "/icons/chef.png",
+          "color": "#03a9f4",
+          "title": ["Výberové jídlo", "Chef's pick"]
+        }
+      }
     }
-  }
-   
-  
+  },
+  "allergens": [
+    [
+      { "id": "1", "description": "Obiloviny obsahující lepek"},
+      { "id": "2", "description": "Korýši"},
+      { "id": "3", "description": "Vejce"},
+      { "id": "4", "description": "Ryby"},
+      { "id": "5", "description": "Podzemnice olejná (arašídy)"},
+      { "id": "6", "description": "Sójové boby (sója)"},
+      { "id": "7", "description": "Mléko"},
+      { "id": "8", "description": "Skořápkové plody"},
+      { "id": "9", "description": "Celer"},
+      { "id": "10", "description": "Hořčice"},
+      { "id": "11", "description": "Sezamová semena (sezam)"},
+      { "id": "12", "description": "Oxid siřičitý a siřičitany"},
+      { "id": "13", "description": "Vlčí bob (lupina)"},
+      { "id": "14", "description": "Měkkýši"}
+    ],
+    [
+      { "id": "1", "description": "Cereals containing gluten" },
+      { "id": "2", "description": "Crustaceans" },
+      { "id": "3", "description": "Eggs" },
+      { "id": "4", "description": "Fish" },
+      { "id": "5", "description": "Peanuts" },
+      { "id": "6", "description": "Soybeans" },
+      { "id": "7", "description": "Milk" },
+      { "id": "8", "description": "Nuts" },
+      { "id": "9", "description": "Celery" },
+      { "id": "10", "description": "Mustard" },
+      { "id": "11", "description": "Sesame seeds" },
+      { "id": "12", "description": "Sulphur dioxide and sulphites" },
+      { "id": "13", "description": "Lupin" },
+      { "id": "14", "description": "Molluscs" }
+    ]
+
+  ]
 }

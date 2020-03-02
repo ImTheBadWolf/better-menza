@@ -7,6 +7,7 @@ import { TransitionProps } from "@material-ui/core/transitions/transition";
 const data = [
   {
     name: 'Tilapie smažená, bramborový salát s majonézou',
+    id: 1,
     alergens: [1, 3, 4, 7, 9, 10, 12],
     portions: 107,
     types: ['chef', 'vegetarian'],
@@ -15,6 +16,7 @@ const data = [
   {
     img: '/food/1.jfif',
     name: 'Martinovský krůtí biftek, smažené hranolky',
+    id: 2,
     alergens: [3, 6, 7, 9, 10, 11, 12, 13],
     portions: 107,
     types: ['glutenFree'],
@@ -24,6 +26,7 @@ const data = [
   {
     img: '/food/2.jfif',
     name: 'Debrecínská vepřová plec, těstoviny',
+    id: 3,
     alergens: [1, 3, 12],
     portions: 70,
     types: ['chef', 'vegetarian', 'glutenFree'],
@@ -33,12 +36,14 @@ const data = [
   {
     img: '/food/3.jfif',
     name: 'Kynuté knedlíky s meruňkami a strouhaným tvarohem',
+    id: 4,
     alergens: [1, 3, 7],
     price: 54.00,
   },
   {
     img: '/food/0.jfif',
     name: 'Tilapie smažená, bramborový salát s majonézou',
+    id: 1,
     alergens: [1, 3, 4, 7, 9, 10, 12],
     portions: 107,
     types: ['chef', 'vegetarian'],
@@ -47,6 +52,7 @@ const data = [
   {
     img: '/food/1.jfif',
     name: 'Martinovský krůtí biftek, smažené hranolky',
+    id: 2,
     alergens: [3, 6, 7, 9, 10, 11, 12, 13],
     portions: 107,
     types: ['glutenFree'],
@@ -56,6 +62,7 @@ const data = [
   {
     img: '/food/2.jfif',
     name: 'Debrecínská vepřová plec, těstoviny',
+    id: 3,
     alergens: [1, 3, 12],
     portions: 70,
     types: ['chef', 'vegetarian', 'glutenFree'],
@@ -65,6 +72,7 @@ const data = [
   {
     img: '/food/3.jfif',
     name: 'Kynuté knedlíky s meruňkami a strouhaným tvarohem',
+    id: 4,
     alergens: [1, 3, 7],
     price: 54.00,
   },
@@ -76,7 +84,7 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 
 
 
-const FoodList: React.FC = () => {
+const FoodList: React.FC<{ languageID: number }> = ({ languageID}) => {
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [modalImg, setModalImg] = React.useState<string>("");
@@ -92,13 +100,14 @@ const FoodList: React.FC = () => {
       }
     }
   }
-  //TODO add meal ID(numbers)
+  
   return (
     <>
       {
         data.map((foodItem, index) =>
           <FoodItem
             key={index}
+            id={foodItem.id}
             imgPath={foodItem.img}
             foodName={foodItem.name}
             alergens={foodItem.alergens}
@@ -107,7 +116,7 @@ const FoodList: React.FC = () => {
             portions={foodItem?.portions}
             types={foodItem?.types as IFoodItemProps['types']}
             onSelect={onSelect}
-            id={index}
+            languageID={languageID}
             />
         )
       }

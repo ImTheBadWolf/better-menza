@@ -13,22 +13,7 @@ const AllergensList: React.FC<{ languageID: number }> = ({ languageID}) => {
         { title: translations.submodules.table.allergens.number[languageID], field: 'id' },
         { title: translations.submodules.table.allergens.description[languageID], field: 'description' },
       ]}
-      data={[
-        { id: '1', description: 'Obiloviny obsahující lepek'},
-        { id: '2', description: 'Korýši' },
-        { id: '3', description: 'Vejce' },
-        { id: '4', description: 'Ryby' },
-        { id: '5', description: 'Podzemnice olejná (arašídy)' },
-        { id: '6', description: 'Sójové boby (sója)' },
-        { id: '7', description: 'Mléko' },
-        { id: '8', description: 'Skořápkové plody' },
-        { id: '9', description: 'Celer' },
-        { id: '10', description: 'Hořčice' },
-        { id: '11', description: 'Sezamová semena (sezam)' },
-        { id: '12', description: 'Oxid siřičitý a siřičitany' },
-        { id: '13', description: 'Vlčí bob (lupina)' },
-        { id: '14', description: 'Měkkýši' },
-      ]}
+      data={translations.allergens[languageID]}
       options={{
         search: false,
         paging: false,

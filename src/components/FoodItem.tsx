@@ -9,6 +9,8 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Tags from "./Tags";
 import { Button } from "@material-ui/core";
 
+import translations from "../translations.json";
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -43,33 +45,35 @@ export interface IFoodItemProps {
 	foodName: string,
 	onSelect: (type:'id'|'img' , id:number)=>void;
 	id: number,
+	key: number,
 	portions?: number,
 	annexes?: string[],
-	types?: Array<'vegetarian'|'glutenFree'|'chef'>
+	types?: Array<'vegetarian'|'glutenFree'|'chef'>,
+	languageID: number
 }
 
-const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, portions, price, annexes, types, onSelect, id }) => {
+const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, portions, price, annexes, types, onSelect, id, key, languageID }) => {
 	
 	const classes = useStyles();  
 
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.paper}>
-				{types && <Tags types={types} />}
+				{types && <Tags types={types} languageID={languageID} />}
 				<Grid container spacing={2}>
 					<Grid item>
 						<ButtonBase className={classes.image}>
-							<img className={classes.img} alt="foodImage" src={imgPath || '/food/noPhoto.png'} onClick={() => onSelect("img", id)} />
+							<img className={classes.img} alt="foodImage" src={imgPath || '/food/noPhoto.png'} onClick={() => onSelect("img", key)} />
 						</ButtonBase>
 					</Grid>
 					<Grid item xs={12} sm container>
 						<Grid item xs container direction="column" spacing={2}>
 							<Grid item xs>
 								<Typography gutterBottom variant="subtitle1" >
-									{foodName}
+									{`${id}. ${foodName}`}
                 </Typography>
 								{portions && <Typography variant="body2" gutterBottom color='textSecondary'>
-									{`Zbyva porci: ${portions}`}
+									{`${translations.submodules.mealList.portions[languageID]}: ${portions}`}
 								</Typography>}
 								{annexes && <Typography variant="body2" color="textSecondary">
 									{`(${annexes.join(",")})`}
@@ -86,13 +90,12 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, porti
 									<Typography variant="subtitle1">{`${price} Kč`}</Typography>
 								</Grid>
 								<Grid item>
-									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", id)}>
-										Vybrat
+									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", key)}>
+										{translations.submodules.table.select[languageID]}
 									</Button>
 								</Grid>
 							</Grid>
 						</Grid>{/* TODO spacing of select button to be in right bottom corner */}
-
 					</Grid>
 				</Grid>
 			</Paper>
