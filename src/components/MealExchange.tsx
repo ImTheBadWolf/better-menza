@@ -3,18 +3,21 @@ import * as React from "react";
 import MaterialTable  from 'material-table';
 import { Checkbox } from "@material-ui/core";
 
-const MealExchange: React.FC = () => {
+import translations from "../translations.json";
+
+const MealExchange: React.FC<{ languageID: number }> = ({ languageID}) => {
 
   return (
     <MaterialTable
-      title="Burza"
+      title={translations.leftMenu.mealExchange[languageID]}
       columns={[
-        { title: 'Dátum', field: 'date' },
-        { title: 'Jídlo', field: 'meal' },
-        { title: 'Alt', field: 'id' },
-        { title: 'Výdejna', field: 'canteen' },
-        { title: 'Cena', field: 'price' },
-        { title: 'Vybrat',
+        { title: translations.leftMenu.date[languageID], field: 'date' },
+        { title: translations.submodules.table.meal[languageID], field: 'meal' },
+        { title: 'Id', field: 'id' },
+        { title: translations.leftMenu.canteen[languageID], field: 'canteen' },
+        { title: translations.submodules.table.price[languageID], field: 'price' },
+        {
+          title: translations.submodules.table.select[languageID],
           render: (row)=> <Checkbox/>
         },
       ]}

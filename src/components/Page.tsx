@@ -11,13 +11,14 @@ interface IProps {
   credit?: number,
   fullName?: string,
   canteen: string,
+  languageID: number,
   onLogin: ()=>void,
   onLogout: () => void,
   onCanteenChange: (e:any)=> void,
 }
 
 
-const Header: React.FC<IProps> = ({login, onLogin, onLogout, credit, fullName, canteen, onCanteenChange}) => {
+const Page: React.FC<IProps> = ({ login, onLogin, onLogout, credit, fullName, canteen, onCanteenChange, languageID}) => {
   const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
   return (
@@ -41,9 +42,9 @@ const Header: React.FC<IProps> = ({login, onLogin, onLogout, credit, fullName, c
 
         <Button style={{marginLeft: 'auto'}} color="inherit" onClick={login? onLogout : onLogin}>{login ? "Log out" : "Login"}</Button>
       </Toolbar>
-      <CustomMenu open={menuOpen} onClose={() => setMenuOpen(false)} onCanteenChange={onCanteenChange} canteen={canteen} />
+      <CustomMenu languageID={languageID} open={menuOpen} onClose={() => setMenuOpen(false)} onCanteenChange={onCanteenChange} canteen={canteen} />
     </AppBar>
   );
 };
 
-export default Header;
+export default Page;

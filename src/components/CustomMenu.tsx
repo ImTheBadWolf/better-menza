@@ -9,7 +9,7 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 import 'moment/locale/cs';
-
+import 'moment/locale/en-gb';
 
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
@@ -18,23 +18,22 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
-
-
-moment.locale('cs');
-
+import translations from "../translations.json";
 
 
 interface IProps {
   open: boolean;
   canteen: string;
+  languageID: number,
   onClose: ()=>void;
   onCanteenChange: (e:any)=>void;
 }
 
 
-const CustomMenu: React.FC<IProps> = ({open, onClose, onCanteenChange, canteen}) => {
+const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen, languageID}) => {
   const [date, setDate] = React.useState<string | null>(new Date(Date.now()).toISOString())
   const { push } = useHistory();
+  moment.locale(translations.languages.locales[languageID]);
 
   return (
     <Drawer open={open} onClose={onClose}>
@@ -44,49 +43,49 @@ const CustomMenu: React.FC<IProps> = ({open, onClose, onCanteenChange, canteen})
           <ListItemIcon>
             <FastfoodIcon />
           </ListItemIcon>
-          <ListItemText primary={"Jídelníček"} />
+          <ListItemText primary={translations.leftMenu.home[languageID]} />
         </ListItem>
 
         <ListItem button onClick={() => push('/orders')} >
             <ListItemIcon>
               <ListAltIcon />
             </ListItemIcon>
-            <ListItemText primary={"Objednavky"} />
+          <ListItemText primary={translations.leftMenu.orders[languageID]} />
         </ListItem>
 
         <ListItem button onClick={() => push('/exchange')} >
           <ListItemIcon>
             <TrendingUpIcon />
           </ListItemIcon>
-          <ListItemText primary={"Burza"} />
+          <ListItemText primary={translations.leftMenu.mealExchange[languageID]} />
         </ListItem>
 
         <ListItem button onClick={() => push('/history')} >
           <ListItemIcon>
             <HistoryIcon />
           </ListItemIcon>
-          <ListItemText primary={"Historia uctu"} />
+          <ListItemText primary={translations.leftMenu.history[languageID]} />
         </ListItem>
 
         <ListItem button onClick={() => push('/allergens')} >
           <ListItemIcon>
             <ThumbDownIcon />
           </ListItemIcon>
-          <ListItemText primary={"Zoznam alergenov"} />
+          <ListItemText primary={translations.leftMenu.allergens[languageID]} />
         </ListItem>
 
         <ListItem button onClick={() => window.open("https://eps.vsb.cz/")}>
           <ListItemIcon>
             <CreditCardIcon/>
           </ListItemIcon>
-          <ListItemText primary={"Vklad na ucet"} />
+          <ListItemText primary={translations.leftMenu.payment[languageID]} />
         </ListItem>
 
         <ListItem button onClick={() => push('/settings')} >
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary={"Nastavenia"} />
+          <ListItemText primary={translations.leftMenu.settings[languageID]} />
         </ListItem>
 
         {useHistory().location.pathname === "/" &&
@@ -97,7 +96,7 @@ const CustomMenu: React.FC<IProps> = ({open, onClose, onCanteenChange, canteen})
               <KeyboardDatePicker
                 margin="normal"
                 id="date-picker-dialog"
-                label="Datum"
+                label={translations.leftMenu.date[languageID]}
                 format="DD/MM/YYYY"
                 disablePast
                 autoOk
@@ -113,10 +112,10 @@ const CustomMenu: React.FC<IProps> = ({open, onClose, onCanteenChange, canteen})
           <ListItem>
             <FormControl fullWidth>
               <InputLabel>
-                {'Vydajna'}
+                {translations.leftMenu.canteen[languageID]}
               </InputLabel>
               <Select
-                label={"Vydajna"}
+                label={translations.leftMenu.canteen[languageID]}
                 value={canteen}
                 onChange={(e) => onCanteenChange(e.target.value)}
                 fullWidth

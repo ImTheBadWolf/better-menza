@@ -1,5 +1,22 @@
 {
-  "languages": ["cs_CZ", "en-US"],
+  "languages": {
+    "keys": [
+      "cz",
+      "eng"
+    ],
+    "lexical": [
+      "Český",
+      "English"
+    ],
+    "locales": [
+      "cs",
+      "en-gb"
+    ],
+    "settings": [
+      "Jazyk",
+      "Language"
+    ]
+  },
   
   "portionsLeft": ["Zbývá porcí", "Portions left"],
   "selectItem": ["Vybrat", "Select"],
@@ -8,14 +25,67 @@
     ["Vegetarion meal", "Gluten-free meal", "Chef's choice"]
   ],
 
+  "leftMenu":{
+    "date": [
+      "Dátum",
+      "Date"
+    ],
+    "canteen": [
+      "Výdejna",
+      "Canteen"
+    ],
+    "orders": [
+      "Objednávky",
+      "Orders"
+    ],
+    "mealExchange": [
+      "Burza",
+      "Meal exchange"
+    ],
+    "history": [
+      "Historie účtu",
+      "Account history"
+    ],
+    "allergens": [
+      "Seznam alergenů",
+      "List of allergens"
+    ],
+    "payment": [
+      "Vklad na účet",
+      "Top up"
+    ],
+    "settings": [
+      "Nastavení",
+      "Settings"
+    ],
+    "home": [
+      "Jídelníček",
+      "Meals"
+    ]
+  },
 
-  "leftmenuDate": ["Dátum", "Date"],
-  "leftmenuCanteen": ["Výdejna" , "Canteen"],
-  "leftmenuOrders": ["Objednávky", "Orders"],
-  "leftmenuMealExchange": ["Burza", "Meal exchange"],
-  "leftmenuHistory": ["Historie účtu", "Account history"],
-  "leftmenuAlergens": ["Seznam alergenů", "List of allergens"],
-  "leftmenuPayment": ["Vklad na účet", "Top up"],
-  "leftmenuSettings": ["Nastavení", "Settings"],
-  "leftmenuHome": ["Jídelníček", "Meals"]
+  "submodules":{
+    "table":{
+      "meal": ["Jídlo", "Meal"],
+      "mealType": ["Druh jídla", "Meal type"],
+      "price": ["Cena", "Price"],
+      "cancel": ["Storno", "Cancel"],
+      "select": ["Vybrat", "Select"],
+      "allergens":{
+        "number": ["Číslo", "Number"],
+        "description": ["Popis", "Description"]
+      }
+    },
+    "orders":{
+    },
+    "mealExchange":{
+    },
+    "accountHistory":{
+
+    },
+    "allergens":{
+    }
+  }
+   
+  
 }

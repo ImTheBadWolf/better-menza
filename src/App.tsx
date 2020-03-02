@@ -1,27 +1,31 @@
 import React from 'react';
 
 import FoodList from './components/FoodList';
-import Header from './components/Header';
+import Page from './components/Page';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AllergensList from './components/AllergensList';
 import Orders from './components/Orders';
 import MealExchange from './components/MealExchange';
+import Settings from './components/Settings';
 
 function App() {
 
   const [login, setLogin] = React.useState<string>();
   const [fullName, setFullName] = React.useState<string>();
   const [canteen, setCanteen] = React.useState<string>("Snack Bar");
+
+  const [languageID, setLanguageID] = React.useState<number>(parseInt(localStorage.getItem('languageID') || "0"));
   /* TODO move states to header, they are not needed here */
 
   return (
     <Router>
       <div>
-        <Header
+        <Page
           login={login}
           fullName={fullName}
           credit={169.42}
           canteen={canteen}
+          languageID={languageID}
           onCanteenChange={(e) => setCanteen(e)}
           onLogin={() => { setLogin("KKT0420"); setFullName("Pišta Gadžino") }}
           onLogout={() => { setLogin(undefined); setFullName(undefined) }}
@@ -33,19 +37,19 @@ function App() {
             <FoodList/>
           </Route>
           <Route exact path="/allergens">
-            <AllergensList/>
+            <AllergensList languageID={languageID}/>
           </Route>
           <Route exact path="/history">
             <div>account history goes here</div>
           </Route>
           <Route exact path="/exchange">
-            <MealExchange/>
+            <MealExchange languageID={languageID}/>
           </Route>
           <Route exact path="/orders">
-            <Orders/>
+            <Orders languageID={languageID}/>
           </Route>
           <Route exact path="/settings">
-            <div>settings should be here</div>
+            <Settings languageID={languageID} onChange={(lang) => {localStorage.setItem('languageID', lang); setLanguageID(lang)}} />
           </Route>
         </Switch>
       </div>

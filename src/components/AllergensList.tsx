@@ -2,14 +2,16 @@ import * as React from "react";
 
 import MaterialTable  from 'material-table';
 
-const AllergensList: React.FC = () => {
+import translations from "../translations.json";
+
+const AllergensList: React.FC<{ languageID: number }> = ({ languageID}) => {
 
   return (
     <MaterialTable
-      title="Seznam alergenů"
+      title={translations.leftMenu.allergens[languageID]}
       columns={[
-        { title: 'Číslo', field: 'id' },
-        { title: 'Popis', field: 'description' },
+        { title: translations.submodules.table.allergens.number[languageID], field: 'id' },
+        { title: translations.submodules.table.allergens.description[languageID], field: 'description' },
       ]}
       data={[
         { id: '1', description: 'Obiloviny obsahující lepek'},

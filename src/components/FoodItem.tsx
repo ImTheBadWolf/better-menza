@@ -80,7 +80,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, porti
 							</Grid>	
 						</Grid>
 
-						<Grid item justify='space-between'>
+						<Grid item>
 							<Grid container direction="column" justify='space-between'>
 								<Grid item>
 									<Typography variant="subtitle1">{`${price} Kč`}</Typography>
@@ -91,7 +91,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, porti
 									</Button>
 								</Grid>
 							</Grid>
-						</Grid>{/* TODO */}
+						</Grid>{/* TODO spacing of select button to be in right bottom corner */}
 
 					</Grid>
 				</Grid>
