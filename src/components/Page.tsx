@@ -12,13 +12,11 @@ interface IProps {
   fullName?: string,
   canteen: string,
   languageID: number,
-  onLogin: ()=>void,
-  onLogout: () => void,
   onCanteenChange: (e:any)=> void,
 }
 
 
-const Page: React.FC<IProps> = ({ login, onLogin, onLogout, credit, fullName, canteen, onCanteenChange, languageID}) => {
+const Page: React.FC<IProps> = ({ login, credit, fullName, canteen, onCanteenChange, languageID}) => {
   const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
 
   return (
@@ -40,9 +38,18 @@ const Page: React.FC<IProps> = ({ login, onLogin, onLogout, credit, fullName, ca
           </Typography>
         </div>}
 
-        <Button style={{marginLeft: 'auto'}} color="inherit" onClick={login? onLogout : onLogin}>{login ? "Log out" : "Login"}</Button>
+        <Button 
+          style={{marginLeft: 'auto'}}
+          color="inherit"
+          onClick={
+            //() =>window.open("https://www.sso.vsb.cz/login")
+            () => login ? localStorage.setItem("logged", "false") : localStorage.setItem("logged", "true")
+          }
+        >
+          {login ? "Log out" : "Login"}
+        </Button>
       </Toolbar>
-      <CustomMenu languageID={languageID} open={menuOpen} onClose={() => setMenuOpen(false)} onCanteenChange={onCanteenChange} canteen={canteen} />
+      <CustomMenu fullName={fullName} languageID={languageID} open={menuOpen} onClose={() => setMenuOpen(false)} onCanteenChange={onCanteenChange} canteen={canteen} logged={Boolean(login)} />
     </AppBar>
   );
 };

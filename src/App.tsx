@@ -2,20 +2,45 @@ import React from 'react';
 
 import FoodList from './components/FoodList';
 import Page from './components/Page';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, RouteProps } from 'react-router-dom';
 import AllergensList from './components/AllergensList';
 import Orders from './components/Orders';
 import MealExchange from './components/MealExchange';
 import Settings from './components/Settings';
+import NoData from './components/NoData';
+
+interface IProps extends RouteProps {
+  logged: boolean;
+}
+
+const PrivateRoute: React.FC<IProps> = ({ path, logged, children, ...rest }) => {
+  return logged? 
+  (
+    <Route {...rest}>
+      {children}
+    </Route>
+  ) : <Redirect to={"/login"}/>
+}
 
 function App() {
 
   const [login, setLogin] = React.useState<string>();
   const [fullName, setFullName] = React.useState<string>();
   const [canteen, setCanteen] = React.useState<string>("Snack Bar");
-
   const [languageID, setLanguageID] = React.useState<number>(parseInt(localStorage.getItem('languageID') || "0"));
-  /* TODO move states to header, they are not needed here */
+ 
+  const checkLogin = () => {
+    if(localStorage.getItem("logged") === "true"){
+      setLogin("KKT0420");
+      setFullName("Pišta Gadžino")
+    }
+    else
+      setLogin(undefined);
+  }
+
+  setInterval(() => checkLogin(), 200);//https://stravovani.vsb.cz/WebKredit/PrihlasenyUzivatel.aspx
+
+
 
   return (
     <Router>
@@ -27,27 +52,29 @@ function App() {
           canteen={canteen}
           languageID={languageID}
           onCanteenChange={(e) => setCanteen(e)}
-          onLogin={() => { setLogin("KKT0420"); setFullName("Pišta Gadžino") }}
-          onLogout={() => { setLogin(undefined); setFullName(undefined) }}
         />
         <div style={{ marginBottom: '30px' }}></div>
 
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/login">
+            <NoData languageID={languageID} login={login} />
+          </Route>
+
+          <PrivateRoute logged={Boolean(login)} exact path="/">
             <FoodList languageID={languageID}/>
-          </Route>
-          <Route exact path="/allergens">
+          </PrivateRoute>
+          <PrivateRoute logged={Boolean(login)} exact path="/allergens">
             <AllergensList languageID={languageID}/>
-          </Route>
-          <Route exact path="/history">
+          </PrivateRoute>
+          <PrivateRoute logged={Boolean(login)} exact path="/history">
             <div>account history goes here</div>
-          </Route>
-          <Route exact path="/exchange">
+          </PrivateRoute>
+          <PrivateRoute logged={Boolean(login)} exact path="/exchange">
             <MealExchange languageID={languageID}/>
-          </Route>
-          <Route exact path="/orders">
+          </PrivateRoute>
+          <PrivateRoute logged={Boolean(login)} exact path="/orders">
             <Orders languageID={languageID}/>
-          </Route>
+          </PrivateRoute>
           <Route exact path="/settings">
             <Settings languageID={languageID} onChange={(lang) => {localStorage.setItem('languageID', lang); setLanguageID(lang)}} />
           </Route>

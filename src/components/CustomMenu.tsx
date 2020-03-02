@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { useHistory } from "react-router-dom";
 
-import { Drawer, List, ListItem, Select, MenuItem, Divider, InputLabel, FormControl } from "@material-ui/core";
+import { Drawer, List, ListItem, Select, MenuItem, Divider, InputLabel, FormControl, Typography } from "@material-ui/core";
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -25,12 +25,14 @@ interface IProps {
   open: boolean;
   canteen: string;
   languageID: number,
+  fullName?: string,
   onClose: ()=>void;
   onCanteenChange: (e:any)=>void;
+  logged: boolean,
 }
 
 
-const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen, languageID}) => {
+const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen, languageID, logged, fullName}) => {
   const [date, setDate] = React.useState<string | null>(new Date(Date.now()).toISOString())
   const { push } = useHistory();
   moment.locale(translations.languages.locales[languageID]);
@@ -39,55 +41,59 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
     <Drawer open={open} onClose={onClose}>
       <List>
 
-        <ListItem button onClick={() => push('/')} >
-          <ListItemIcon>
-            <FastfoodIcon />
-          </ListItemIcon>
-          <ListItemText primary={translations.leftMenu.home[languageID]} />
-        </ListItem>
+        {logged &&
+          <>
+            <Typography style={{textAlign: 'center'}}>{fullName}</Typography>
+            <Divider style={{ margin: '5px 16px' }} />
+            <ListItem button onClick={() => push('/')} >
+              <ListItemIcon>
+                <FastfoodIcon />
+              </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.home[languageID]} />
+            </ListItem>
 
-        <ListItem button onClick={() => push('/orders')} >
-            <ListItemIcon>
-              <ListAltIcon />
-            </ListItemIcon>
-          <ListItemText primary={translations.leftMenu.orders[languageID]} />
-        </ListItem>
+            <ListItem button onClick={() => push('/orders')} >
+                <ListItemIcon>
+                  <ListAltIcon />
+                </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.orders[languageID]} />
+            </ListItem>
 
-        <ListItem button onClick={() => push('/exchange')} >
-          <ListItemIcon>
-            <TrendingUpIcon />
-          </ListItemIcon>
-          <ListItemText primary={translations.leftMenu.mealExchange[languageID]} />
-        </ListItem>
+            <ListItem button onClick={() => push('/exchange')} >
+              <ListItemIcon>
+                <TrendingUpIcon />
+              </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.mealExchange[languageID]} />
+            </ListItem>
 
-        <ListItem button onClick={() => push('/history')} >
-          <ListItemIcon>
-            <HistoryIcon />
-          </ListItemIcon>
-          <ListItemText primary={translations.leftMenu.history[languageID]} />
-        </ListItem>
+            <ListItem button onClick={() => push('/history')} >
+              <ListItemIcon>
+                <HistoryIcon />
+              </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.history[languageID]} />
+            </ListItem>
 
-        <ListItem button onClick={() => push('/allergens')} >
-          <ListItemIcon>
-            <ThumbDownIcon />
-          </ListItemIcon>
-          <ListItemText primary={translations.leftMenu.allergens[languageID]} />
-        </ListItem>
+            <ListItem button onClick={() => push('/allergens')} >
+              <ListItemIcon>
+                <ThumbDownIcon />
+              </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.allergens[languageID]} />
+            </ListItem>
 
-        <ListItem button onClick={() => window.open("https://eps.vsb.cz/")}>
-          <ListItemIcon>
-            <CreditCardIcon/>
-          </ListItemIcon>
-          <ListItemText primary={translations.leftMenu.payment[languageID]} />
-        </ListItem>
-
-        <ListItem button onClick={() => push('/settings')} >
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary={translations.leftMenu.settings[languageID]} />
-        </ListItem>
-
+            <ListItem button onClick={() => window.open("https://eps.vsb.cz/")}>
+              <ListItemIcon>
+                <CreditCardIcon/>
+              </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.payment[languageID]} />
+            </ListItem>
+            <ListItem button onClick={() => push('/settings')} >
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.settings[languageID]} />
+            </ListItem>
+          </>
+        }
         {useHistory().location.pathname === "/" &&
           <>
             <Divider style={{ margin: '30px 16px' }} />
