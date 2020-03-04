@@ -25,6 +25,10 @@ const FoodList: React.FC<{ languageID: number, canteen: string }> = ({ languageI
       .then((res: any) => {
         setFoodData(res.data.data);
       })
+      .catch((error:any) =>{
+        console.log(error);
+        setFoodData([]);
+      })
   },[canteen]);
 
 
