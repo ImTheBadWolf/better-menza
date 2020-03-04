@@ -107,6 +107,7 @@ const FoodList: React.FC<{ languageID: number }> = ({ languageID}) => {
         data.map((foodItem, index) =>
           <FoodItem
             key={index}
+            selectionId={index}
             id={foodItem.id}
             imgPath={foodItem.img}
             foodName={foodItem.name}

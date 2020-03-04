@@ -45,14 +45,14 @@ export interface IFoodItemProps {
 	foodName: string,
 	onSelect: (type:'id'|'img' , id:number)=>void;
 	id: number,
-	key: number,
 	portions?: number,
 	annexes?: string[],
 	types?: Array<'vegetarian'|'glutenFree'|'chef'>,
-	languageID: number
+	languageID: number,
+	selectionId: number
 }
 
-const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, portions, price, annexes, types, onSelect, id, key, languageID }) => {
+const FoodItem: React.FC<IFoodItemProps> = ({ alergens, selectionId, foodName, imgPath, portions, price, annexes, types, onSelect, id, languageID }) => {
 	
 	const classes = useStyles();  
 
@@ -63,7 +63,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, porti
 				<Grid container spacing={2}>
 					<Grid item>
 						<ButtonBase className={classes.image}>
-							<img className={classes.img} alt="foodImage" src={imgPath || '/food/noPhoto.png'} onClick={() => onSelect("img", key)} />
+							<img className={classes.img} alt="foodImage" src={imgPath || '/food/noPhoto.png'} onClick={() => onSelect("img", selectionId)} />
 						</ButtonBase>
 					</Grid>
 					<Grid item xs={12} sm container>
@@ -90,7 +90,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, foodName, imgPath, porti
 									<Typography variant="subtitle1">{`${price} Kč`}</Typography>
 								</Grid>
 								<Grid item>
-									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", key)}>
+									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", selectionId)}>
 										{translations.submodules.table.select[languageID]}
 									</Button>
 								</Grid>

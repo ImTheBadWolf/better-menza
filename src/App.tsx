@@ -8,9 +8,11 @@ import AllergensList from './components/AllergensList';
 import Orders from './components/Orders';
 import MealExchange from './components/MealExchange';
 import Settings from './components/Settings';
+import config from './config.json'
 
 interface IProps extends RouteProps {
   logged: boolean;
+  path: string;
 }
 
 const PrivateRoute: React.FC<IProps> = ({ path, logged, children, ...rest }) => {
@@ -43,7 +45,7 @@ function App() {
     else if(type==="meals"){
       payload = {'command': 'meals', 'canteen': canteen}
     }
-    axios.post("http://127.0.0.1:5000/backend", payload)
+    axios.post(config.backend, payload)
       .then((res: any) => {
         if(res.data["login_data"]){
           setLogin(res.data["login_data"].login);
