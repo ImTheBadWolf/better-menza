@@ -26,9 +26,9 @@ const PrivateRoute: React.FC<IProps> = ({ path, logged, children, ...rest }) => 
 
 function App() {
 
-  const [login, setLogin] = React.useState<string>();
-  const [fullName, setFullName] = React.useState<string>();
-  const [canteen, setCanteen] = React.useState<string>("Snack Bar");
+  const [login, setLogin] = React.useState<string | undefined>(localStorage.getItem('login')?.toString() || undefined);
+  const [fullName, setFullName] = React.useState<string | undefined>(localStorage.getItem('fullName')?.toString() || undefined);
+  const [canteen, setCanteen] = React.useState<string>(localStorage.getItem('canteen')?.toString() || "Snack Bar");
   const [languageID, setLanguageID] = React.useState<number>(parseInt(localStorage.getItem('languageID') || "0"));
  
   const getData = (type: string) => {
@@ -38,9 +38,11 @@ function App() {
       payload = {'command': 'login'}
     }
     else if(type==="logout"){
-      localStorage.setItem("logged", "false");
+      localStorage.removeItem("login");
+      localStorage.removeItem("fullName");
       setLogin(undefined);
       setFullName(undefined);
+      return;
     }
     else if(type==="meals"){
       payload = {'command': 'meals', 'canteen': canteen}
@@ -50,7 +52,8 @@ function App() {
         if(res.data["login_data"]){
           setLogin(res.data["login_data"].login);
           setFullName(res.data["login_data"].firstName + " " + res.data["login_data"].lastName)
-          localStorage.setItem("logged", "true")
+          localStorage.setItem("login", res.data["login_data"].login)
+          localStorage.setItem("fullName", res.data["login_data"].firstName + " " + res.data["login_data"].lastName)
         }
       })
   }
@@ -68,13 +71,13 @@ function App() {
           credit={169.42}
           canteen={canteen}
           languageID={languageID}
-          onCanteenChange={(e) => setCanteen(e)}
+          onCanteenChange={(e) => {setCanteen(e); localStorage.setItem("canteen", e)}}
           onLogin={(type:string) => getData(type)}
         />
         <div style={{ marginBottom: '30px' }}></div>
 
         <Switch>
-          <Route logged={Boolean(login)} exact path="/">
+          <Route exact path="/">
             <FoodList languageID={languageID} canteen={canteen}/>
           </Route>
           <PrivateRoute logged={Boolean(login)} exact path="/allergens">
@@ -89,9 +92,10 @@ function App() {
           <PrivateRoute logged={Boolean(login)} exact path="/orders">
             <Orders languageID={languageID}/>
           </PrivateRoute>
-          <Route exact path="/settings">
+          <PrivateRoute logged={Boolean(login)} exact path="/settings">
             <Settings languageID={languageID} onChange={(lang) => {localStorage.setItem('languageID', lang); setLanguageID(lang)}} />
-          </Route>
+          </PrivateRoute>
+          <Redirect from='*' to='/' />
         </Switch>
       </div>
     </Router>

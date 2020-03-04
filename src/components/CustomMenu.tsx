@@ -36,7 +36,7 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
   const [date, setDate] = React.useState<string | null>(new Date(Date.now()).toISOString())
   const { push } = useHistory();
   moment.locale(translations.languages.locales[languageID]);
-
+//todo set drawer width to 20% or so
   return (
     <Drawer open={open} onClose={onClose}>
       <List>
