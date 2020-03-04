@@ -32,14 +32,14 @@ const Page: React.FC<IProps> = ({ login, credit, fullName, onLogin, canteen, onC
           {login && `${login}`}
         </Typography>
 
-        {login && <div style={{ marginLeft: 'auto',textAlign: 'center' }}>
+        <div style={{ marginLeft: 'auto',textAlign: 'center' }}>
           <Typography>
             {canteen}
           </Typography>
-          <Typography variant='body2'>
+          {login && <Typography variant='body2'>
             {`${credit} Kč`}
-          </Typography>
-        </div>}
+          </Typography>}
+        </div>
 
         <Button 
           style={{marginLeft: 'auto'}}

@@ -1,110 +1,51 @@
 import * as React from "react";
+import axios from 'axios';
 
 import FoodItem, {IFoodItemProps} from '../components/FoodItem'
 import { Dialog, Slide, DialogContent } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions/transition";
 
-const data = [
-  {
-    name: 'Tilapie smažená, bramborový salát s majonézou',
-    id: 1,
-    alergens: [1, 3, 4, 7, 9, 10, 12],
-    portions: 107,
-    types: ['chef', 'vegetarian'],
-    price: 62.00
-  },
-  {
-    img: '/food/1.jfif',
-    name: 'Martinovský krůtí biftek, smažené hranolky',
-    id: 2,
-    alergens: [3, 6, 7, 9, 10, 11, 12, 13],
-    portions: 107,
-    types: ['glutenFree'],
-    price: 55.00,
-    annexes: ["kecup, kari"]
-  },
-  {
-    img: '/food/2.jfif',
-    name: 'Debrecínská vepřová plec, těstoviny',
-    id: 3,
-    alergens: [1, 3, 12],
-    portions: 70,
-    types: ['chef', 'vegetarian', 'glutenFree'],
-    price: 43.00,
-    annexes: ['párky', 'lečo']
-  },
-  {
-    img: '/food/3.jfif',
-    name: 'Kynuté knedlíky s meruňkami a strouhaným tvarohem',
-    id: 4,
-    alergens: [1, 3, 7],
-    price: 54.00,
-  },
-  {
-    img: '/food/0.jfif',
-    name: 'Tilapie smažená, bramborový salát s majonézou',
-    id: 1,
-    alergens: [1, 3, 4, 7, 9, 10, 12],
-    portions: 107,
-    types: ['chef', 'vegetarian'],
-    price: 62.00
-  },
-  {
-    img: '/food/1.jfif',
-    name: 'Martinovský krůtí biftek, smažené hranolky',
-    id: 2,
-    alergens: [3, 6, 7, 9, 10, 11, 12, 13],
-    portions: 107,
-    types: ['glutenFree'],
-    price: 55.00,
-    annexes: ["kecup, kari"]
-  },
-  {
-    img: '/food/2.jfif',
-    name: 'Debrecínská vepřová plec, těstoviny',
-    id: 3,
-    alergens: [1, 3, 12],
-    portions: 70,
-    types: ['chef', 'vegetarian', 'glutenFree'],
-    price: 43.00,
-    annexes: ['párky', 'lečo']
-  },
-  {
-    img: '/food/3.jfif',
-    name: 'Kynuté knedlíky s meruňkami a strouhaným tvarohem',
-    id: 4,
-    alergens: [1, 3, 7],
-    price: 54.00,
-  },
-]
+import config from '../config.json'
+
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
   return <Slide direction="up" mountOnEnter unmountOnExit ref={ref} {...props} />;
 });
 
 
-
-const FoodList: React.FC<{ languageID: number }> = ({ languageID}) => {
+const FoodList: React.FC<{ languageID: number, canteen: string }> = ({ languageID, canteen}) => {
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [modalImg, setModalImg] = React.useState<string>("");
+  const [foodData, setFoodData] = React.useState<any>();
+
+  React.useMemo(() => {
+    const payload= { 'command': 'meals', 'canteen': canteen }
+    axios.post(config.backend, payload)
+      .then((res: any) => {
+        setFoodData(res.data.data);
+      })
+  },[canteen]);
+
+
 
   const onSelect = (type: 'id' | 'img', id: number) => {
     if(type === 'id'){
       console.log("Selected: " + id)
     }
     else{
-      if (data[id]?.img){
+      if (foodData && foodData[id]?.img){
         setModalOpen(true);
-        setModalImg(data[id]?.img);
+        setModalImg(foodData[id]?.img);
       }
     }
   }
   
+  
   return (
     <>
       {
-        data.map((foodItem, index) =>
+        foodData && foodData.map((foodItem:any, index:any) =>
           <FoodItem
             key={index}
             selectionId={index}

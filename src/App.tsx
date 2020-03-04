@@ -75,7 +75,7 @@ function App() {
 
         <Switch>
           <Route logged={Boolean(login)} exact path="/">
-            <FoodList languageID={languageID}/>
+            <FoodList languageID={languageID} canteen={canteen}/>
           </Route>
           <PrivateRoute logged={Boolean(login)} exact path="/allergens">
             <AllergensList languageID={languageID}/>
