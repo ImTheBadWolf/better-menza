@@ -13,11 +13,14 @@ interface IProps {
   canteen: string,
   languageID: number,
   onCanteenChange: (e:any)=> void,
+  onLogin: (type:string)=>void;
 }
 
 
-const Page: React.FC<IProps> = ({ login, credit, fullName, canteen, onCanteenChange, languageID}) => {
+const Page: React.FC<IProps> = ({ login, credit, fullName, onLogin, canteen, onCanteenChange, languageID}) => {
   const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
+
+  
 
   return (
     <AppBar position="sticky">
@@ -29,22 +32,19 @@ const Page: React.FC<IProps> = ({ login, credit, fullName, canteen, onCanteenCha
           {login && `${login}`}
         </Typography>
 
-        {login && <div style={{ marginLeft: 'auto',textAlign: 'center' }}>
+        <div style={{ marginLeft: 'auto',textAlign: 'center' }}>
           <Typography>
             {canteen}
           </Typography>
-          <Typography variant='body2'>
+          {login && <Typography variant='body2'>
             {`${credit} Kč`}
-          </Typography>
-        </div>}
+          </Typography>}
+        </div>
 
         <Button 
           style={{marginLeft: 'auto'}}
           color="inherit"
-          onClick={
-            //() =>window.open("https://www.sso.vsb.cz/login")
-            () => login ? localStorage.setItem("logged", "false") : localStorage.setItem("logged", "true")
-          }
+          onClick={() => login? onLogin("logout") : onLogin("login")}
         >
           {login ? "Log out" : "Login"}
         </Button>

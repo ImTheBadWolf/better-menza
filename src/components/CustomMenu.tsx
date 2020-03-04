@@ -40,10 +40,9 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
   return (
     <Drawer open={open} onClose={onClose}>
       <List>
-
+        <Typography style={{ textAlign: 'center' }}>{logged? fullName : "Please log in"}</Typography>
         {logged &&
           <>
-            <Typography style={{textAlign: 'center'}}>{fullName}</Typography>
             <Divider style={{ margin: '5px 16px' }} />
             <ListItem button onClick={() => push('/')} >
               <ListItemIcon>
