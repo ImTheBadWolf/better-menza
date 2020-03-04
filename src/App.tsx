@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import FoodList from './components/FoodList';
 import Page from './components/Page';
@@ -7,7 +8,6 @@ import AllergensList from './components/AllergensList';
 import Orders from './components/Orders';
 import MealExchange from './components/MealExchange';
 import Settings from './components/Settings';
-import NoData from './components/NoData';
 
 interface IProps extends RouteProps {
   logged: boolean;
@@ -19,7 +19,7 @@ const PrivateRoute: React.FC<IProps> = ({ path, logged, children, ...rest }) => 
     <Route {...rest}>
       {children}
     </Route>
-  ) : <Redirect to={"/login"}/>
+  ) : <Redirect to={"/"}/>
 }
 
 function App() {
@@ -29,16 +29,31 @@ function App() {
   const [canteen, setCanteen] = React.useState<string>("Snack Bar");
   const [languageID, setLanguageID] = React.useState<number>(parseInt(localStorage.getItem('languageID') || "0"));
  
-  const checkLogin = () => {
-    if(localStorage.getItem("logged") === "true"){
-      setLogin("KKT0420");
-      setFullName("Pišta Gadžino")
+  const getData = (type: string) => {
+    let payload;
+    
+    if(type==="login"){
+      payload = {'command': 'login'}
     }
-    else
+    else if(type==="logout"){
+      localStorage.setItem("logged", "false");
       setLogin(undefined);
+      setFullName(undefined);
+    }
+    else if(type==="meals"){
+      payload = {'command': 'meals', 'canteen': canteen}
+    }
+    axios.post("http://127.0.0.1:5000/backend", payload)
+      .then((res: any) => {
+        if(res.data["login_data"]){
+          setLogin(res.data["login_data"].login);
+          setFullName(res.data["login_data"].firstName + " " + res.data["login_data"].lastName)
+          localStorage.setItem("logged", "true")
+        }
+      })
   }
 
-  setInterval(() => checkLogin(), 200);//https://stravovani.vsb.cz/WebKredit/PrihlasenyUzivatel.aspx
+  //setInterval(() => checkLogin(), 200);//https://stravovani.vsb.cz/WebKredit/PrihlasenyUzivatel.aspx
 
 
 
@@ -52,17 +67,14 @@ function App() {
           canteen={canteen}
           languageID={languageID}
           onCanteenChange={(e) => setCanteen(e)}
+          onLogin={(type:string) => getData(type)}
         />
         <div style={{ marginBottom: '30px' }}></div>
 
         <Switch>
-          <Route exact path="/login">
-            <NoData languageID={languageID} login={login} />
-          </Route>
-
-          <PrivateRoute logged={Boolean(login)} exact path="/">
+          <Route logged={Boolean(login)} exact path="/">
             <FoodList languageID={languageID}/>
-          </PrivateRoute>
+          </Route>
           <PrivateRoute logged={Boolean(login)} exact path="/allergens">
             <AllergensList languageID={languageID}/>
           </PrivateRoute>
