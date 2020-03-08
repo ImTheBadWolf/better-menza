@@ -84,18 +84,16 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, selectionId, foodName, i
 							</Grid>	
 						</Grid>
 
-						<Grid item>
-							<Grid container direction="column" justify='space-between'>
+						<Grid item style={{position: 'relative', marginLeft: '6px'}}>
 								<Grid item>
 									<Typography variant="subtitle1">{`${price} Kč`}</Typography>
 								</Grid>
-								<Grid item>
+								<Grid item style={{position: 'absolute', bottom: '0', right: '0'}}>
 									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", selectionId)}>
 										{translations.submodules.table.select[languageID]}
 									</Button>
 								</Grid>
-							</Grid>
-						</Grid>{/* TODO spacing of select button to be in right bottom corner */}
+						</Grid>
 					</Grid>
 				</Grid>
 			</Paper>
