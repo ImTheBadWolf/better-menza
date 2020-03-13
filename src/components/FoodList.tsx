@@ -6,6 +6,7 @@ import { Dialog, Slide, DialogContent, Typography, CircularProgress } from "@mat
 import { TransitionProps } from "@material-ui/core/transitions/transition";
 
 import config from '../config.json'
+import translations from '../translations.json'
 
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
@@ -40,7 +41,15 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
 
   React.useMemo(() => {
     setFoodData("loading")
-    const payload= { 'command': 'meals', 'canteen': canteens[canteen], 'date': date, 'login': localStorage.getItem("login"), 'session': localStorage.getItem("session"), "loginB": localStorage.getItem("bl") }
+    const payload= { 
+      'command': 'meals',
+      'canteen': canteens[canteen],
+      'date': date,
+      'login': localStorage.getItem("login"),
+      'session': localStorage.getItem("session"),
+      'loginB': localStorage.getItem("bl"),
+      'lang': translations.languages.keys[parseInt(localStorage?.getItem("languageID")||"0")]
+    }
     axios.post(config.backend, payload)
       .then((res: any) => {
         setFoodData(res.data);

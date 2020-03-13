@@ -23,8 +23,8 @@ const Settings: React.FC<{ languageID: number, onChange: (e: any) => void }> = (
             <img alt='cz' src='/icons/cz.png' style={{width: '1em', height: '1em', marginRight: '6px'}} />
             Český
           </MenuItem>
-          <MenuItem value={"eng"}>
-            <img alt='eng' src='/icons/uk.png' style={{ width: '1em', height: '1em', marginRight: '6px' }} />
+          <MenuItem value={"en"}>
+            <img alt='en' src='/icons/uk.png' style={{ width: '1em', height: '1em', marginRight: '6px' }} />
             English
           </MenuItem>
         </Select>
