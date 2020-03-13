@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { useHistory } from 'react-router-dom';
+
 import { AppBar, Toolbar, IconButton, Typography, Button } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import CustomMenu from "./CustomMenu";
@@ -12,15 +14,15 @@ interface IProps {
   fullName?: string,
   canteen: string,
   languageID: number,
+  date: string,
   onCanteenChange: (e:any)=> void,
-  onLogin: (type:string)=>void;
+  onDateChange: (d: string)=>void;
 }
 
 
-const Page: React.FC<IProps> = ({ login, credit, fullName, onLogin, canteen, onCanteenChange, languageID}) => {
+const Page: React.FC<IProps> = ({ login, credit, fullName, canteen, onCanteenChange, languageID, onDateChange, date}) => {
   const [menuOpen, setMenuOpen] = React.useState<boolean>(false);
-
-  
+  const history = useHistory()
 
   return (
     <AppBar position="sticky">
@@ -28,28 +30,42 @@ const Page: React.FC<IProps> = ({ login, credit, fullName, onLogin, canteen, onC
         <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setMenuOpen(true)}>
           <MenuIcon />
         </IconButton>
-        <Typography>
-          {login && `${login}`}
-        </Typography>
-
-        <div style={{ marginLeft: 'auto',textAlign: 'center' }}>
-          <Typography>
-            {canteen}
-          </Typography>
-          {login && <Typography variant='body2'>
-            {`${credit} Kč`}
-          </Typography>}
-        </div>
-
+        {login&&
+          <>
+            <Typography>
+              {`${login.toLocaleUpperCase()}`}
+            </Typography>
+            <div style={{ marginLeft: 'auto',textAlign: 'center' }}>
+              <Typography onClick={()=>history.push("/")}>
+                {canteen}
+              </Typography>
+              <Typography variant='body2'>
+                {`${credit} Kč`}
+              </Typography>
+            </div>
+          </>
+        }
         <Button 
           style={{marginLeft: 'auto'}}
           color="inherit"
-          onClick={() => login? onLogin("logout") : onLogin("login")}
+          onClick={() => {
+            if(!login){
+              history.push("/login")
+            }
+            else{
+              localStorage.removeItem("login");
+              localStorage.removeItem("fullName");
+              localStorage.removeItem("session");
+              localStorage.removeItem("bl");
+              localStorage.removeItem("balance"); //TODO move this to redux store
+              history.push("/")
+            }
+          }}
         >
           {login ? "Log out" : "Login"}
         </Button>
       </Toolbar>
-      <CustomMenu fullName={fullName} languageID={languageID} open={menuOpen} onClose={() => setMenuOpen(false)} onCanteenChange={onCanteenChange} canteen={canteen} logged={Boolean(login)} />
+      <CustomMenu fullName={fullName} languageID={languageID} open={menuOpen} onClose={() => setMenuOpen(false)} onCanteenChange={onCanteenChange} onDateChange={onDateChange} canteen={canteen} logged={Boolean(login)} />
     </AppBar>
   );
 };

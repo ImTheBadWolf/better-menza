@@ -63,7 +63,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, selectionId, foodName, i
 				<Grid container spacing={2}>
 					<Grid item>
 						<ButtonBase className={classes.image}>
-							<img className={classes.img} alt="foodImage" src={imgPath || '/food/noPhoto.png'} onClick={() => onSelect("img", selectionId)} />
+							<img className={classes.img} alt="foodImage" src={imgPath ? ("data:image/png;base64,"+imgPath) : '/food/noPhoto.png'} onClick={() => onSelect("img", selectionId)} />
 						</ButtonBase>
 					</Grid>
 					<Grid item xs={12} sm container>

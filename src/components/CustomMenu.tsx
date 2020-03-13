@@ -28,11 +28,12 @@ interface IProps {
   fullName?: string,
   onClose: ()=>void;
   onCanteenChange: (e:any)=>void;
+  onDateChange: (d: string)=>void;
   logged: boolean,
 }
 
 
-const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen, languageID, logged, fullName}) => {
+const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen, languageID, logged, fullName, onDateChange}) => {
   const [date, setDate] = React.useState<string | null>(new Date(Date.now()).toISOString())
   const { push } = useHistory();
   moment.locale(translations.languages.locales[languageID]);
@@ -40,7 +41,7 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
   return (
     <Drawer open={open} onClose={onClose}>
       <List>
-        <Typography style={{ textAlign: 'center' }}>{logged? fullName : "Please log in"}</Typography>
+        <Typography style={{ textAlign: 'center', margin: logged ? undefined:'30px'}}>{logged? fullName : "  Please log in  "}</Typography>
         {logged &&
           <>
             <Divider style={{ margin: '5px 16px' }} />
@@ -93,7 +94,7 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
             </ListItem>
           </>
         }
-        {useHistory().location.pathname === "/" &&
+        {useHistory().location.pathname === "/" && logged &&
           <>
             <Divider style={{ margin: '30px 16px' }} />
             <ListItem>
@@ -107,7 +108,7 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
                 autoOk
                 value={date}
                 shouldDisableDate={(date) => date?.day() === 0 || date?.day() === 6}
-                onChange={moment => setDate(moment?.format() || null)}
+                onChange={moment => { setDate(moment?.format() || null); onDateChange(moment?.format('YYYY-MM-DD') || "")}}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -125,9 +126,14 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
                 onChange={(e) => onCanteenChange(e.target.value)}
                 fullWidth
               >
-                <MenuItem value={"Snack Bar"}>Snack Bar</MenuItem>
                 <MenuItem value={"Menza 5"}>Menza 5</MenuItem>
+                <MenuItem value={"Aula"}>Aula</MenuItem>
+                <MenuItem value={"Snack Bar"}>Snack Bar</MenuItem>
+                <MenuItem value={"FAST"}>FAST</MenuItem>
+                <MenuItem value={"FBI"}>FBI</MenuItem>
+                <MenuItem value={"Pizzeria"}>Pizzeria</MenuItem>
                 <MenuItem value={"Kruhovka"}>Kruhovka</MenuItem>
+                <MenuItem value={"Bufet EkF"}>Bufet EkF</MenuItem>
               </Select>
             </FormControl>
           </ListItem>

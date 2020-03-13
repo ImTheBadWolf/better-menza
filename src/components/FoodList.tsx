@@ -2,7 +2,7 @@ import * as React from "react";
 import axios from 'axios';
 
 import FoodItem, {IFoodItemProps} from '../components/FoodItem'
-import { Dialog, Slide, DialogContent } from "@material-ui/core";
+import { Dialog, Slide, DialogContent, Typography, CircularProgress } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions/transition";
 
 import config from '../config.json'
@@ -13,23 +13,43 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 });
 
 
-const FoodList: React.FC<{ languageID: number, canteen: string }> = ({ languageID, canteen}) => {
+const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> = ({ languageID, canteen, date}) => {
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [modalImg, setModalImg] = React.useState<string>("");
   const [foodData, setFoodData] = React.useState<any>();
 
+
+  const [canteens] = React.useState<any>({
+    "Menza 5": 1,
+    "Aula": 2,
+    "Snack Bar": 3,
+    "FAST":  5,
+    "FBI": 4,
+    "Pizzeria": 9,
+    "Kruhovka": 6,
+    "Bufet EkF": 11,
+  });
+
+  const pictoGrams:any = {
+    "-2": "glutenFree",
+    "-3": "vegetarian",
+    "6": "chef",
+    "-1": "chef",
+  }
+
   React.useMemo(() => {
-    const payload= { 'command': 'meals', 'canteen': canteen }
+    setFoodData("loading")
+    const payload= { 'command': 'meals', 'canteen': canteens[canteen], 'date': date, 'login': localStorage.getItem("login"), 'session': localStorage.getItem("session"), "loginB": localStorage.getItem("bl") }
     axios.post(config.backend, payload)
       .then((res: any) => {
-        setFoodData(res.data.data);
+        setFoodData(res.data);
       })
       .catch((error:any) =>{
         console.log(error);
         setFoodData([]);
       })
-  },[canteen]);
+  }, [canteen, canteens, date]);
 
 
 
@@ -38,32 +58,46 @@ const FoodList: React.FC<{ languageID: number, canteen: string }> = ({ languageI
       console.log("Selected: " + id)
     }
     else{
-      if (foodData && foodData[id]?.img){
+      if (foodData && foodData[id]?.imgB){
         setModalOpen(true);
-        setModalImg(foodData[id]?.img);
+        setModalImg(foodData[id]?.imgB);
       }
     }
   }
   
-  
   return (
     <>
       {
-        foodData && foodData.map((foodItem:any, index:any) =>
-          <FoodItem
-            key={index}
-            selectionId={index}
-            id={foodItem.id}
-            imgPath={foodItem.img}
-            foodName={foodItem.name}
-            alergens={foodItem.alergens}
-            price={foodItem.price}
-            annexes={foodItem?.annexes}
-            portions={foodItem?.portions}
-            types={foodItem?.types as IFoodItemProps['types']}
-            onSelect={onSelect}
-            languageID={languageID}
-            />
+        (foodData==="loading")?
+          (<div style={{width: '100%', textAlign: 'center'}} ><CircularProgress/></div>)
+        :(
+          (!!foodData?.length && !foodData["Message"]) ?
+          (
+            foodData.map((foodItem:any, index:any) =>{
+              if(foodItem.MealAlt===0)
+                return undefined;
+
+              return(
+                <FoodItem
+                  key={index}
+                  selectionId={index}
+                  id={foodItem.MealAlt}
+                  imgPath={foodItem.imgB}
+                  foodName={foodItem.MealAltDescription}
+                  alergens={[0, 0, 0]}
+                  price={foodItem.Price}
+                  /* annexes={} */
+                  /* portions={foodItem?.portions} */
+                  types={foodItem?.PictogramIds?.map((id:number)=>pictoGrams[id]) as IFoodItemProps['types']}
+                  onSelect={onSelect}
+                  languageID={languageID}
+                />
+              )}
+            )
+          )
+          :(
+            <Typography style={{textAlign: 'center', fontSize: '20px'}}>No data</Typography>
+          )
         )
       }
       <Dialog
@@ -75,7 +109,7 @@ const FoodList: React.FC<{ languageID: number, canteen: string }> = ({ languageI
         maxWidth={"lg"}
       >
         <DialogContent style={{ padding: '0px'}}>
-          <img src={modalImg} alt="foodImage" style={{ width: '100%', height: '100%', marginBottom: '-4px' }}></img>
+          <img src={"data:image/png;base64,"+modalImg} alt="foodImage" style={{ width: '100%', height: '100%', marginBottom: '-4px' }}></img>
         </DialogContent>
       </Dialog>
     </>
