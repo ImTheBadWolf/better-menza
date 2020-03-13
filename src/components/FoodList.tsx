@@ -48,7 +48,7 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
       'login': localStorage.getItem("login"),
       'session': localStorage.getItem("session"),
       'loginB': localStorage.getItem("bl"),
-      'lang': translations.languages.keys[parseInt(localStorage?.getItem("languageID")||"0")]
+      'lang': translations.languages.keys[languageID]
     }
     axios.post(config.backend, payload)
       .then((res: any) => {
@@ -58,7 +58,7 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
         console.log(error);
         setFoodData([]);
       })
-  }, [canteen, canteens, date]);
+  }, [canteen, canteens, date, languageID]);
 
 
 
