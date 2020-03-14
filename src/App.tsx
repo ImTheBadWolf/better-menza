@@ -23,21 +23,26 @@ const PrivateRoute: React.FC<IProps> = ({ path, logged, children, ...rest }) => 
     </Route>
   ) : <Redirect to={"/login"}/>
 }
+const getCookie = (name: string) => { //move to functions file
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length === 2) return parts?.pop()?.split(";")?.shift();
+}
 
 function App() {
 
-  const [login, setLogin] = React.useState<string | undefined>(localStorage.getItem('login')?.toString() || undefined);
-  const [fullName, setFullName] = React.useState<string | undefined>(localStorage.getItem('fullName')?.toString()||undefined);
+  const [login, setLogin] = React.useState<string | undefined>(getCookie("login") || undefined);
+  const [fullName, setFullName] = React.useState<string | undefined>(getCookie("fullName") ||undefined);
   const [canteen, setCanteen] = React.useState<string>(localStorage.getItem('canteen')?.toString() || "Snack Bar");
   const [languageID, setLanguageID] = React.useState<number>(parseInt(localStorage.getItem('languageID') || "0"));
   const [balance, setBalance] = React.useState<number>(0);
   const [date, setDate] = React.useState<string>(moment().format('YYYY-MM-DD'));
  
   const checkLogin = ()=>{
-    if(localStorage.getItem("login")){
-      setLogin(localStorage.getItem("login")?.toString())
-      setFullName(localStorage.getItem("fullName")?.toString())
-      setBalance(parseFloat(localStorage.getItem("balance")?.toString() || "0"))
+    if (getCookie("login")){
+      setLogin(getCookie("login"))
+      setFullName(getCookie("fullName"))
+      setBalance(parseFloat(getCookie("balance") || "0"))
     }
     else{
       setLogin(undefined);

@@ -7,6 +7,7 @@ import { TransitionProps } from "@material-ui/core/transitions/transition";
 
 import config from '../config.json'
 import translations from '../translations.json'
+import { useHistory } from "react-router-dom";
 
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
@@ -19,6 +20,7 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [modalImg, setModalImg] = React.useState<string>("");
   const [foodData, setFoodData] = React.useState<any>();
+  const history = useHistory()
 
 
   const [canteens] = React.useState<any>({
@@ -31,12 +33,20 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
     "Kruhovka": 6,
     "Bufet EkF": 11,
   });
-
   const pictoGrams:any = {
     "-2": "glutenFree",
     "-3": "vegetarian",
     "6": "chef",
     "-1": "chef",
+  }
+
+  const getCookie = (name:string) => { //move to functions file
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts?.pop()?.split(";")?.shift();
+  }
+  function deleteCookie(name:string) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   }
 
   React.useMemo(() => {
@@ -45,20 +55,26 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
       'command': 'meals',
       'canteen': canteens[canteen],
       'date': date,
-      'login': localStorage.getItem("login"),
-      'session': localStorage.getItem("session"),
-      'loginB': localStorage.getItem("bl"),
+      'session': getCookie("sessionToken"),
       'lang': translations.languages.keys[languageID]
     }
     axios.post(config.backend, payload)
       .then((res: any) => {
-        setFoodData(res.data);
+        if(res.data["error"]==="Invalid session"){
+          /* deleteCookie("login")
+          deleteCookie("fullName")
+          deleteCookie("sessionToken")
+          deleteCookie("balance")
+          history.push("/login") */
+        }
+        else
+          setFoodData(res.data);
       })
       .catch((error:any) =>{
         console.log(error);
         setFoodData([]);
       })
-  }, [canteen, canteens, date, languageID]);
+  }, [canteen, canteens, date, languageID, history]);
 
 
 

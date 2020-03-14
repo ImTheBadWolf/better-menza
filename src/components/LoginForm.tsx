@@ -23,19 +23,21 @@ const LoginForm: React.FC<{logged: boolean}> = ({logged}) => {
     axios.post(config.backend, payload)
       .then((res: any) => {
         if (res.data["login_data"]) {
-          localStorage.setItem("login", login||"")
-          localStorage.setItem("fullName", res.data["login_data"].fullName)
-          localStorage.setItem("session", res.data["login_data"].token)
-          localStorage.setItem("bl", btoa(`${login}:${password}`) ) //TODO use redux for global variables
-          localStorage.setItem("balance", res.data["login_data"].balance)
+          document.cookie = "login="+login||"";
+          document.cookie = "fullName=" + res.data["login_data"].fullName;
+          document.cookie = "sessionToken=" + res.data["login_data"].token;
+          document.cookie = "balance=" + res.data["login_data"].balance;//move to redux??
           history.push("/")
+        }
+        else if(res.data["error"]){
+          alert(res.data["error"])
         }
       })
     
   }
 
   return (
-    <Paper style={{margin: 'auto', padding: 25, width: '20%'}}>
+    <Paper style={{ margin: 'auto', padding: 25, width: '20%' }}/*TODO bigger width on mobile screens*/>
       <div style={{ display: 'table'}} >
         <form onSubmit={loginF}>
           <TextField label="Login" variant="outlined" onChange={(e) => setLogin(e.target.value)}

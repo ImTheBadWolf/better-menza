@@ -8,7 +8,7 @@ import translations from "../translations.json";
 const Settings: React.FC<{ languageID: number, onChange: (e: any) => void }> = ({ languageID, onChange}) => {
 
   return (
-    <div style={{width: '25%', margin: 'auto'}}>
+    <div style={{width: '25%', margin: 'auto'}} /*TODO bigger width on mobile screens*/ >
       <FormControl fullWidth>
         <InputLabel>
           {translations.languages.settings[languageID]}

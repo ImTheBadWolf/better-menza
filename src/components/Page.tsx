@@ -37,7 +37,7 @@ const Page: React.FC<IProps> = ({ login, credit, fullName, canteen, onCanteenCha
             </Typography>
             <div style={{ marginLeft: 'auto',textAlign: 'center' }}>
               <Typography onClick={()=>history.push("/")}>
-                {canteen}
+              {canteen + " - " + (date.slice(8) + "." + date.slice(5, 7)).replace("0", "")}
               </Typography>
               <Typography variant='body2'>
                 {`${credit} Kč`}
@@ -53,11 +53,10 @@ const Page: React.FC<IProps> = ({ login, credit, fullName, canteen, onCanteenCha
               history.push("/login")
             }
             else{
-              localStorage.removeItem("login");
-              localStorage.removeItem("fullName");
-              localStorage.removeItem("session");
-              localStorage.removeItem("bl");
-              localStorage.removeItem("balance"); //TODO move this to redux store
+              document.cookie = 'balance=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+              document.cookie = 'login=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+              document.cookie = 'fullName=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+              document.cookie = 'sessionToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
               history.push("/")
             }
           }}
