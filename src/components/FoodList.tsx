@@ -8,6 +8,7 @@ import { TransitionProps } from "@material-ui/core/transitions/transition";
 import config from '../config.json'
 import translations from '../translations.json'
 import { useHistory } from "react-router-dom";
+import { getCookie, deleteCookie } from "../utils";
 
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
@@ -40,15 +41,6 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
     "-1": "chef",
   }
 
-  const getCookie = (name:string) => { //move to functions file
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length === 2) return parts?.pop()?.split(";")?.shift();
-  }
-  function deleteCookie(name:string) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  }
-
   React.useMemo(() => {
     setFoodData("loading")
     const payload= { 
@@ -60,12 +52,12 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
     }
     axios.post(config.backend, payload)
       .then((res: any) => {
-        if(res.data["error"]==="Invalid session"){
-          /* deleteCookie("login")
+        if(res.data["error"]==="Invalid session" && getCookie("login")!=="KKT420"){
+          deleteCookie("login")
           deleteCookie("fullName")
           deleteCookie("sessionToken")
           deleteCookie("balance")
-          history.push("/login") */
+          history.push("/login")
         }
         else
           setFoodData(res.data);

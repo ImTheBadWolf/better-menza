@@ -30,14 +30,16 @@ interface IProps {
   onCanteenChange: (e:any)=>void;
   onDateChange: (d: string)=>void;
   logged: boolean,
+  onRedirect: ()=>void;
 }
 
 
-const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen, languageID, logged, fullName, onDateChange}) => {
+const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen, languageID, logged, fullName, onDateChange, onRedirect}) => {
   const [date, setDate] = React.useState<string | null>(new Date(Date.now()).toISOString())
   const { push } = useHistory();
   moment.locale(translations.languages.locales[languageID]);
-//todo set drawer width to 20% or so
+
+
   return (
     <Drawer open={open} onClose={onClose}>
       <List>
@@ -45,48 +47,48 @@ const CustomMenu: React.FC<IProps> = ({ open, onClose, onCanteenChange, canteen,
         {logged &&
           <>
             <Divider style={{ margin: '5px 16px' }} />
-            <ListItem button onClick={() => push('/')} >
+            <ListItem button onClick={() => {push('/'); onRedirect()}} >
               <ListItemIcon>
                 <FastfoodIcon />
               </ListItemIcon>
               <ListItemText primary={translations.leftMenu.home[languageID]} />
             </ListItem>
 
-            <ListItem button onClick={() => push('/orders')} >
+            <ListItem button onClick={() => { push('/orders'); onRedirect()}} disabled >
                 <ListItemIcon>
                   <ListAltIcon />
                 </ListItemIcon>
               <ListItemText primary={translations.leftMenu.orders[languageID]} />
             </ListItem>
 
-            <ListItem button onClick={() => push('/exchange')} >
-              <ListItemIcon>
-                <TrendingUpIcon />
-              </ListItemIcon>
-              <ListItemText primary={translations.leftMenu.mealExchange[languageID]} />
-            </ListItem>
-
-            <ListItem button onClick={() => push('/history')} >
+            <ListItem button onClick={() => { push('/history'); onRedirect() }} >
               <ListItemIcon>
                 <HistoryIcon />
               </ListItemIcon>
               <ListItemText primary={translations.leftMenu.history[languageID]} />
             </ListItem>
 
-            <ListItem button onClick={() => push('/allergens')} >
+            <ListItem button onClick={() => {push('/exchange'); onRedirect()}} disabled >
+              <ListItemIcon>
+                <TrendingUpIcon />
+              </ListItemIcon>
+              <ListItemText primary={translations.leftMenu.mealExchange[languageID]} />
+            </ListItem>
+
+            <ListItem button onClick={() => { push('/allergens'); onRedirect()}} >
               <ListItemIcon>
                 <ThumbDownIcon />
               </ListItemIcon>
               <ListItemText primary={translations.leftMenu.allergens[languageID]} />
             </ListItem>
 
-            <ListItem button onClick={() => window.open("https://eps.vsb.cz/")}>
+            <ListItem button onClick={() => { window.open("https://eps.vsb.cz/"); onRedirect()}}>
               <ListItemIcon>
                 <CreditCardIcon/>
               </ListItemIcon>
               <ListItemText primary={translations.leftMenu.payment[languageID]} />
             </ListItem>
-            <ListItem button onClick={() => push('/settings')} >
+            <ListItem button onClick={() => {push('/settings'); onRedirect()}} >
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>

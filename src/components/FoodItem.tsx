@@ -85,11 +85,11 @@ const FoodItem: React.FC<IFoodItemProps> = ({ alergens, selectionId, foodName, i
 						</Grid>
 
 						<Grid item style={{position: 'relative', marginLeft: '6px'}}>
-								<Grid item>
+								<Grid item style={{ marginBottom: '35px'}} >
 									<Typography variant="subtitle1">{`${price} Kč`}</Typography>
 								</Grid>
 								<Grid item style={{position: 'absolute', bottom: '0', right: '0'}}>
-									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", selectionId)}>
+									<Button variant="outlined" style={{ cursor: 'pointer' }} onClick={() => onSelect("id", selectionId)} disabled>
 										{translations.submodules.table.select[languageID]}
 									</Button>
 								</Grid>

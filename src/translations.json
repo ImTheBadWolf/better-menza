@@ -66,9 +66,11 @@
 
   "submodules":{
     "table":{
-      "meal": ["Jídlo", "Meal"],
+      "meal": ["Jídlo/Akcia", "Meal/Action"],
       "mealType": ["Druh jídla", "Meal type"],
       "price": ["Cena", "Price"],
+      "account": ["Účet","Account"],
+      "reserve": ["Záloha","Reserve"],
       "cancel": ["Storno", "Cancel"],
       "select": ["Vybrat", "Select"],
       "allergens":{

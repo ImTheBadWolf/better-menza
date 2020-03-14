@@ -9,6 +9,8 @@ import Orders from './components/Orders';
 import MealExchange from './components/MealExchange';
 import Settings from './components/Settings';
 import moment from 'moment';
+import { getCookie } from './utils';
+import OrderHistory from './components/OrderHistory';
 
 interface IProps extends RouteProps {
   logged: boolean;
@@ -23,17 +25,12 @@ const PrivateRoute: React.FC<IProps> = ({ path, logged, children, ...rest }) => 
     </Route>
   ) : <Redirect to={"/login"}/>
 }
-const getCookie = (name: string) => { //move to functions file
-  var value = "; " + document.cookie;
-  var parts = value.split("; " + name + "=");
-  if (parts.length === 2) return parts?.pop()?.split(";")?.shift();
-}
 
 function App() {
 
   const [login, setLogin] = React.useState<string | undefined>(getCookie("login") || undefined);
   const [fullName, setFullName] = React.useState<string | undefined>(getCookie("fullName") ||undefined);
-  const [canteen, setCanteen] = React.useState<string>(localStorage.getItem('canteen')?.toString() || "Snack Bar");
+  const [canteen, setCanteen] = React.useState<string>(localStorage.getItem('canteen')?.toString() || "Menza 5");
   const [languageID, setLanguageID] = React.useState<number>(parseInt(localStorage.getItem('languageID') || "0"));
   const [balance, setBalance] = React.useState<number>(0);
   const [date, setDate] = React.useState<string>(moment().format('YYYY-MM-DD'));
@@ -81,7 +78,7 @@ function App() {
             <AllergensList languageID={languageID}/>
           </PrivateRoute>
           <PrivateRoute logged={Boolean(login)} exact path="/history">
-            <div>account history goes here</div>
+            <OrderHistory languageID={languageID}/>
           </PrivateRoute>
           <PrivateRoute logged={Boolean(login)} exact path="/exchange">
             <MealExchange languageID={languageID}/>
