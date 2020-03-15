@@ -84,7 +84,7 @@ const Page: React.FC<IProps> = ({ login, credit, fullName, canteen, onCanteenCha
         languageID={languageID}
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        onCanteenChange={onCanteenChange}
+        onCanteenChange={(e)=>{ onCanteenChange(e); setMenuOpen(false)}}
         onDateChange={onDateChange}
         canteen={canteen}
         logged={Boolean(login)}

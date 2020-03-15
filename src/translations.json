@@ -30,6 +30,8 @@
       "Dátum",
       "Date"
     ],
+    "from": ["Od", "From"],
+    "to": ["Do", "To"],
     "canteen": [
       "Výdejna",
       "Canteen"

@@ -7,6 +7,7 @@ import { TransitionProps } from "@material-ui/core/transitions/transition";
 
 import config from '../config.json'
 import translations from '../translations.json'
+import mockData from '../mockData.json'
 import { useHistory } from "react-router-dom";
 import { getCookie, deleteCookie } from "../utils";
 
@@ -43,6 +44,10 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
 
   React.useMemo(() => {
     setFoodData("loading")
+    if (getCookie("login") === "KKT420"){
+      setFoodData(mockData.meals) //Make file for mock data
+      return;
+    }
     const payload= { 
       'command': 'meals',
       'canteen': canteens[canteen],
@@ -52,7 +57,7 @@ const FoodList: React.FC<{ languageID: number, canteen: string , date: string}> 
     }
     axios.post(config.backend, payload)
       .then((res: any) => {
-        if(res.data["error"]==="Invalid session" && getCookie("login")!=="KKT420"){
+        if(res.data["error"]==="Invalid session"){
           deleteCookie("login")
           deleteCookie("fullName")
           deleteCookie("sessionToken")

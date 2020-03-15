@@ -10,7 +10,7 @@ import MealExchange from './components/MealExchange';
 import Settings from './components/Settings';
 import moment from 'moment';
 import { getCookie } from './utils';
-import OrderHistory from './components/OrderHistory';
+import AccountHistory from './components/AccountHistory';
 
 interface IProps extends RouteProps {
   logged: boolean;
@@ -78,7 +78,7 @@ function App() {
             <AllergensList languageID={languageID}/>
           </PrivateRoute>
           <PrivateRoute logged={Boolean(login)} exact path="/history">
-            <OrderHistory languageID={languageID}/>
+            <AccountHistory languageID={languageID}/>
           </PrivateRoute>
           <PrivateRoute logged={Boolean(login)} exact path="/exchange">
             <MealExchange languageID={languageID}/>
