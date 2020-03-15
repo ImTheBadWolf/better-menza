@@ -1,14 +1,15 @@
 import * as React from "react";
 
-import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { FormControl, InputLabel, Select, MenuItem, useMediaQuery } from "@material-ui/core";
 
 import translations from "../translations.json";
 
 
 const Settings: React.FC<{ languageID: number, onChange: (e: any) => void }> = ({ languageID, onChange}) => {
+  const matches = useMediaQuery('(min-width:660px)');
 
   return (
-    <div style={{width: '25%', margin: 'auto'}} /*TODO bigger width on mobile screens*/ >
+    <div style={{width:matches? '20%':'50%', margin: 'auto'}} >
       <FormControl fullWidth>
         <InputLabel>
           {translations.languages.settings[languageID]}

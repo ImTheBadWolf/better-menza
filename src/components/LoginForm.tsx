@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 import TextField from '@material-ui/core/TextField';
-import { Paper, Button } from '@material-ui/core';
+import { Paper, Button, useMediaQuery } from '@material-ui/core';
 import config from '../config.json'
  
 const LoginForm: React.FC<{logged: boolean}> = ({logged}) => {
@@ -12,6 +12,7 @@ const LoginForm: React.FC<{logged: boolean}> = ({logged}) => {
   const [login, setLogin] = React.useState<string>();
   const [password, setPassword] = React.useState<string>();
   const history = useHistory()
+  const matches = useMediaQuery('(min-width:660px)');
 
   if(logged)
     history.push("/")
@@ -41,7 +42,7 @@ const LoginForm: React.FC<{logged: boolean}> = ({logged}) => {
   }
 
   return (
-    <Paper style={{ margin: 'auto', padding: 25, width: '20%' }}/*TODO bigger width on mobile screens*/>
+    <Paper style={{ margin: 'auto', padding: 25, width: matches?'20%':'45%' }}>
       <div style={{ display: 'table'}} >
         <form onSubmit={loginF}>
           <TextField label="Login" variant="outlined" onChange={(e) => setLogin(e.target.value)}

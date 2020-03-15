@@ -50,8 +50,8 @@ const AccountHistory: React.FC<{ languageID: number }> = ({ languageID}) => {
         console.log(error);
         setHistory({"error":"Can't load history"});
       })
-  }, [push, languageID, dateTo, dateFrom]);
-//TODO add loading spinner while getting data from BE
+	}, [push, languageID, dateTo, dateFrom]);
+	
   return (
     <>
       {
