@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from 'axios';
 
-import MaterialTable, { MTableToolbar }  from 'material-table';
+import MaterialTable from 'material-table';
 import MomentUtils from '@date-io/moment';
 import translations from "../translations.json";
 import { getCookie, deleteCookie } from "../utils";
@@ -9,7 +9,7 @@ import config from '../config.json'
 import mockData from '../mockData.json'
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import { Typography, CircularProgress } from "@material-ui/core";
+import { Typography, CircularProgress, useMediaQuery } from "@material-ui/core";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
 
@@ -19,7 +19,7 @@ const AccountHistory: React.FC<{ languageID: number }> = ({ languageID}) => {
 	const [dateTo, setDateTo] = React.useState<string | null>(moment().format('YYYY-MM-DD'));
   const [history, setHistory] = React.useState<any>();
   const {push} = useHistory()
-
+	const matches = useMediaQuery('(min-width:670px)');
 
   React.useMemo(() => {
 		setHistory("loading")
@@ -61,7 +61,6 @@ const AccountHistory: React.FC<{ languageID: number }> = ({ languageID}) => {
           (history  && !history["error"]) ?
           (
             <MaterialTable
-              title={translations.leftMenu.history[languageID]}
               columns={[
                 { 
                   title: translations.leftMenu.date[languageID],
@@ -102,12 +101,21 @@ const AccountHistory: React.FC<{ languageID: number }> = ({ languageID}) => {
 									<div style={{
 										display: 'flex',
 										flexWrap: 'nowrap',
-										justifyContent: 'space-between'
+										justifyContent: 'space-between',
+										flexDirection: !matches? "column":undefined
 									}}>
-										<div style={{width: "35%"}}>
-											<MTableToolbar {...props} />
+										<div style={{
+											width: matches? "35%":"100%",
+											textAlign: matches? "left":"center",
+											fontSize: '1.25rem',
+											fontFamily: "Arial",
+										}}>
+											<p>{translations.leftMenu.history[languageID]}</p>
 										</div>
-										<div style={{ width: "100%", textAlign: 'right' }}>
+										<div style={{ 
+											width: matches? "60%":"100%",
+											textAlign: matches? "right":"center",
+										 }}>
 											<MuiPickersUtilsProvider utils={MomentUtils}>
 												<DatePicker
 													margin="normal"

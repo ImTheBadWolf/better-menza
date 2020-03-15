@@ -33,6 +33,10 @@ const LoginForm: React.FC<{logged: boolean}> = ({logged}) => {
           alert(res.data["error"])
         }
       })
+      .catch((error: any) => {
+        console.log(error);
+        alert("Can't login right now, try again later") //TODO redo alerts to snackbars
+      })
     
   }
 
